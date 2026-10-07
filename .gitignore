@@ -1,0 +1,145 @@
+# Universal Multi-Chain Bridge dApp
+
+A production-style full-stack Web3 bridge dApp for transferring assets across Arc Network, Ethereum Sepolia, BNB Chain, Arbitrum, Linea, Base, and Polygon.
+
+## Overview
+
+This repository contains:
+
+- `contracts/` – Solidity smart contract and Hardhat deployment scripts for the bridge, pause controls, and referral points logic.
+- `frontend/` – Next.js + React + Tailwind + RainbowKit + Wagmi application with a baby pink Web3 UI, bridge widget, referral hub, analytics, and dashboard views.
+
+## Features
+
+- Multi-chain bridge interface with source/target network selectors
+- EVM wallet connectivity via MetaMask / Wagmi / RainbowKit
+- Dynamic fee and gas estimation UI
+- Testnet faucet widget
+- Referral engine with 10% lifetime bonus points
+- Trade-to-earn point tracking
+- Activity history and dashboards
+- Global analytics cards
+- Responsive glassmorphism UI in a soft baby pink, dark-themed design
+
+## Project Structure
+
+```bash
+.
+├── README.md
+├── contracts/
+│   ├── .env.example
+│   ├── .gitignore
+│   ├── contracts/
+│   │   └── MultiChainBridge.sol
+│   ├── hardhat.config.js
+│   ├── package.json
+│   ├── scripts/
+│   │   └── deploy.js
+│   └── README.md
+├── frontend/
+│   ├── .env.example
+│   ├── .gitignore
+│   ├── app/
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   └── providers.tsx
+│   ├── next.config.js
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── tailwind.config.ts
+│   ├── tsconfig.json
+│   └── public/
+│       └── logo.svg
+└── .gitignore
+```
+
+## Prerequisites
+
+- Node.js 18+
+- npm or pnpm
+- Git
+- A crypto wallet (MetaMask, etc.) for browser testing
+- RPC URLs and private keys for testnet deployment
+
+## Smart Contract Setup
+
+```bash
+cd contracts
+cp .env.example .env
+npm install
+npx hardhat compile
+npx hardhat run scripts/deploy.js --network sepolia
+```
+
+### Environment Variables
+
+```bash
+PRIVATE_KEY=your_private_key
+SEPOLIA_RPC_URL=https://ethereum-sepolia-rpc.publicnode.com
+BSC_TESTNET_RPC_URL=https://bsc-testnet.public.blastapi.io
+ARBITRUM_SEPOLIA_RPC_URL=https://sepolia-rollup.arbitrum.io/rpc
+POLYGON_AMOY_RPC_URL=https://rpc-amoy.polygon.technology
+BASE_SEPOLIA_RPC_URL=https://sepolia.base.org
+LINEA_SEPOLIA_RPC_URL=https://rpc.sepolia.linea.build
+```
+
+## Frontend Setup
+
+```bash
+cd frontend
+cp .env.example .env.local
+npm install
+npm run dev
+```
+
+### Frontend environment example
+
+```bash
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
+NEXT_PUBLIC_APP_NAME=ArcBridge
+NEXT_PUBLIC_APP_DESCRIPTION=Universal Multi-Chain Bridge
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_APP_ICON=http://localhost:3000/logo.png
+```
+
+## Architecture Notes
+
+### Smart contract role
+The bridge contract tracks:
+
+- `owner` and pause switch
+- `referrerOf` mappings
+- `userPoints` and `referralPoints`
+- referral counts
+- transfer events for cross-chain deposit tracking
+
+This project is designed as a full-stack MVP and can be extended with canonical bridge messaging, IBC, or relayer services for true production-grade multi-chain movement.
+
+### Frontend role
+The frontend simulates a production liquidity bridge UX, including:
+
+- wallet connection
+- chain selection
+- token selection and balance display
+- quick swap and referral link UX
+- analytics dashboard
+- social and activity UI
+
+## Security
+
+- Contract includes emergency pause control
+- Referral binding prevents self-referral
+- Owner-only pause toggle
+- Withdrawal and payout guards for protocol funds
+
+## Deployment
+
+1. Deploy the smart contract on the target network(s)
+2. Update contract addresses in the frontend config
+3. Launch the frontend with a production environment
+4. Add relayer and monitoring services for true cross-chain execution
+
+## License
+
+MIT
